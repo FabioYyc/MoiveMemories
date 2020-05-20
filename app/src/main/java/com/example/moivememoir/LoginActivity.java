@@ -1,6 +1,7 @@
 package com.example.moivememoir;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class LoginActivity  extends AppCompatActivity{
     private String passwordHash;
     private RestHelper restHelper;
     private Boolean loginSuccess;
+    private ProgressDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         restHelper = new RestHelper();
@@ -39,6 +41,7 @@ public class LoginActivity  extends AppCompatActivity{
                 String[] details = new String[]{username, password};
                 if (validateInputs()) {
                 LoginTask loginTask = new LoginTask();
+                displayLoader();
                 loginTask.execute(details);
                 }
             }
@@ -63,6 +66,15 @@ public class LoginActivity  extends AppCompatActivity{
         return true;
     }
 
+    private void displayLoader() {
+        pDialog = new ProgressDialog(LoginActivity.this);
+        pDialog.setMessage("login.. Please wait...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+    }
+
     /**
      * Async login using restful method
      *
@@ -72,6 +84,7 @@ public class LoginActivity  extends AppCompatActivity{
 
         @Override
         protected Boolean doInBackground(String... params) {
+
             String username = params[0];
             String password = params[1];
             return restHelper.login(username, password);
@@ -81,7 +94,7 @@ public class LoginActivity  extends AppCompatActivity{
             loginSuccess = result;
             Toast toast = Toast.makeText(getApplicationContext(), "message", Toast.LENGTH_LONG);
             if(loginSuccess) {
-
+                pDialog.dismiss();
                 toast.setText("Login successful");
                 toast.show();
                 Intent intent = new Intent(LoginActivity.this,
