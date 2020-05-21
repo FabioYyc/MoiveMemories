@@ -1,10 +1,15 @@
 package com.example.moivememoir.rest;
 
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class RestHelper {
     private OkHttpClient client = null;
@@ -22,12 +27,30 @@ public class RestHelper {
         String methodPath = "memoir.credentials/login";
         Request.Builder builder = new Request.Builder();
         builder.url(BASE_URL + methodPath);
-        Request request = builder.build();
+        String passwordHash = md5(password);
+        RequestBody formBody = new FormBody.Builder()
+                .add("username", username  )
+                .add("passwordHash", passwordHash)
+                .build();
+        Request request = builder.post(formBody).build();
+
+
+
+        try {
+            Response response = client.newCall(request).execute();
+            results=response.body().string();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         if(username.equals("test")) return true;
+        if(results.equals("true")) return true;
         return false;
     }
 
-    public void register(){
+    public Boolean register(String username, String password){
+        if(username.equals("test@gmail.com")) return true;
+        return false;
 
     }
 
@@ -44,5 +67,22 @@ public class RestHelper {
         }
         return results;
     }
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
 
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }
