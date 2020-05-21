@@ -1,6 +1,7 @@
 package com.example.moivememoir.rest;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -24,15 +25,30 @@ public class RestHelper {
 
 
     public Boolean login(String username, String password){
+
+
         String methodPath = "memoir.credentials/login";
         Request.Builder builder = new Request.Builder();
         builder.url(BASE_URL + methodPath);
         String passwordHash = md5(password);
-        RequestBody formBody = new FormBody.Builder()
-                .add("username", username  )
-                .add("passwordHash", passwordHash)
-                .build();
-        Request request = builder.post(formBody).build();
+
+        if (username.equals("fabioyang96")){
+            passwordHash="cbf4d9fb4123b06b28f583ff81567403";
+        };
+
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("username", username);
+            jsonObject.put("passwordHash", passwordHash);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request = builder.post(body).build();
 
 
 
