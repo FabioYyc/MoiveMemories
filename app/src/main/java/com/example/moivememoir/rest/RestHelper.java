@@ -30,9 +30,8 @@ public class RestHelper {
             "http://192.168.1.102:16377/MovieMemoir/webresources/";
 
 
-    public Boolean login(String username, String password){
+    public String login(String username, String password){
 
-        if(username.equals("test@gmail.com")) return true;
 
         String methodPath = "memoir.credentials/login";
         Request.Builder builder = new Request.Builder();
@@ -66,9 +65,8 @@ public class RestHelper {
             e.printStackTrace();
         }
 
-        if(username.equals("test")) return true;
-        if(results.equals("true")) return true;
-        return false;
+        if(!results.equals("null")) return results;
+        return "failed";
     }
 
     public String register(String[] params){

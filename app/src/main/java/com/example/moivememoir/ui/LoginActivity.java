@@ -11,7 +11,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.moivememoir.R;
+import com.example.moivememoir.entities.Person;
 import com.example.moivememoir.rest.RestHelper;
+import com.google.gson.Gson;
 
 public class LoginActivity  extends AppCompatActivity{
     private static final String KEY_USERNAME = "username";
@@ -25,6 +27,7 @@ public class LoginActivity  extends AppCompatActivity{
     private RestHelper restHelper;
     private Boolean loginSuccess;
     private ProgressDialog pDialog;
+    private Person user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         restHelper = new RestHelper();
@@ -104,25 +107,28 @@ public class LoginActivity  extends AppCompatActivity{
      *
      */
 
-    private class LoginTask extends AsyncTask<String, Void, Boolean>{
+    private class LoginTask extends AsyncTask<String, Void, String>{
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected String doInBackground(String... params) {
 
             String username = params[0];
             String password = params[1];
             return restHelper.login(username, password);
         }
         @Override
-        protected void onPostExecute(Boolean result) {
-            loginSuccess = result;
+        protected void onPostExecute(String result) {
+
             Toast toast = Toast.makeText(getApplicationContext(), "message", Toast.LENGTH_LONG);
-            if(loginSuccess) {
+            if(!result.equals("failed")) {
+                Gson g = new Gson();
+                user= g.fromJson(result, Person.class);
                 pDialog.dismiss();
                 toast.setText("Login successful");
                 toast.show();
                 Intent intent = new Intent(LoginActivity.this,
                         MainActivity.class);
+                intent.putExtra("userObject", user);
                 startActivity(intent);
             }
             else{
