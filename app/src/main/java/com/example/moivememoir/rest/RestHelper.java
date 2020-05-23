@@ -1,5 +1,9 @@
 package com.example.moivememoir.rest;
 
+import android.util.JsonReader;
+
+import com.google.gson.JsonObject;
+
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -11,6 +15,8 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.UUID;
 
 public class RestHelper {
     private OkHttpClient client = null;
@@ -26,6 +32,7 @@ public class RestHelper {
 
     public Boolean login(String username, String password){
 
+        if(username.equals("test@gmail.com")) return true;
 
         String methodPath = "memoir.credentials/login";
         Request.Builder builder = new Request.Builder();
@@ -64,25 +71,120 @@ public class RestHelper {
         return false;
     }
 
-    public Boolean register(String username, String password){
-        if(username.equals("test@gmail.com")) return true;
-        return false;
+    public String register(String[] params){
+        //String[] details = new String[]{email, password, DOB, address, state, gender, firstName, surname, postcode};
+        String email = params[0];
+        String password = params[1];
+        String DOB = params[2];
+        String address = params[3];
+        String state = params[4];
+        String gender = params[5];
+        String firstName = params[6];
+        String surname = params[7];
+        String postcode = params[8];
+        String credentialResult = "";
+        Boolean personResult;
 
-    }
+        String passwordHash = md5(password);
 
-    public  String findByCourse(int courseid) {
-        final String methodPath = "student.student/findByCourse/" + courseid;
-        Request.Builder builder = new Request.Builder();
-        builder.url(BASE_URL + methodPath);
-        Request request = builder.build();
+        //create a person
+        Integer personId = createPersonId();
+        //if it is 0 meaning the request was not successful
+        if(personId == 0) return "Create person failed";
+
+        JSONObject personObj = new JSONObject();
         try {
-            Response response = client.newCall(request).execute();
-            results=response.body().string();
+            personObj.put("personId", personId);
+            personObj.put("personName", firstName);
+            personObj.put("personSurname", surname);
+            personObj.put("personAddress", address);
+            personObj.put("personDob", DOB);
+            personObj.put("personState", state);
+            personObj.put("personGender", gender);
+            personObj.put("personPostcode", postcode);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //return false if create person failed
+        personResult = createPerson(personObj);
+        if(!personResult) return "Create person failed";;
+
+        //create a credential
+        Date signUpDate = new Date();
+        String dateStr = signUpDate+"T00:00:00+10:00";
+        JSONObject credentialObj = new JSONObject();
+        try {
+            credentialObj.put("username", email);
+            credentialObj.put("passwordHash", passwordHash);
+            credentialObj.put("personId", personObj);
+            credentialObj.put("signUpDate", dateStr);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String credential = "memoir.credentials/signUp";
+
+        Request.Builder credentialBuilder = new Request.Builder();
+        credentialBuilder.url(BASE_URL + credential);
+
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(  String.valueOf(credentialObj), JSON);
+        Request credentialRequest = credentialBuilder.post(body).build();
+        try {
+            Response response = client.newCall(credentialRequest).execute();
+            credentialResult=response.body().string();
+            if(credentialResult.equals("Success")) return "Success";
         }catch (Exception e){
             e.printStackTrace();
         }
-        return results;
+
+
+
+        return credentialResult;
+
     }
+
+    public Integer createPersonId(){
+        String path = "memoir.person/count";
+        int result = 0;
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + path);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            result=Integer.parseInt(response.body().string());
+            return result+1;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+    public Boolean createPerson(JSONObject personObj){
+        String path = "memoir.person";
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + path);
+
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(JSON,  personObj.toString());
+        Request request = builder.post(body).build();
+        try {
+            Response response = client.newCall(request).execute();
+            int code = response.code();
+            //check if the code is 200
+            if(code == 204) return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
     public String md5(String s) {
         try {
             // Create MD5 Hash

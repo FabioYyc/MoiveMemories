@@ -1,4 +1,4 @@
-package com.example.moivememoir;
+package com.example.moivememoir.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.moivememoir.R;
 import com.example.moivememoir.rest.RestHelper;
 
 public class LoginActivity  extends AppCompatActivity{
@@ -32,6 +33,7 @@ public class LoginActivity  extends AppCompatActivity{
         etUsername = findViewById(R.id.editEmail);
         etPassword = findViewById(R.id.editPassword);
         Button login = findViewById(R.id.loginButton);
+        Button register = findViewById(R.id.signUpButton);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +48,28 @@ public class LoginActivity  extends AppCompatActivity{
                 }
             }
         });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,
+                        RegisterActivity.class);
+                startActivityForResult(intent, 1);
+            } });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String newEmail = data.getStringExtra("email");
+                String newPassword = data.getStringExtra("password");
+
+                etUsername.setText(newEmail);
+                etPassword.setText(newPassword);
+            }
+        }
     }
 
     /**
@@ -102,6 +126,7 @@ public class LoginActivity  extends AppCompatActivity{
                 startActivity(intent);
             }
             else{
+                pDialog.dismiss();
                 toast.setText("Incorrect Credentials");
                 toast.show();
             }

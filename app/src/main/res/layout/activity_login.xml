@@ -5,20 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="274dp"
-        android:layout_height="43dp"
-        android:background="@drawable/button_outline_shape"
-        android:text="Register"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton"
-        app:layout_constraintVertical_bias="0.164"
-        app:layout_constraintVertical_chainStyle="packed" />
-
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="121dp"
@@ -30,47 +16,81 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_film" />
 
-    <EditText
-        android:id="@+id/editEmail"
-        android:layout_width="274dp"
-        android:layout_height="52dp"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/editPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintVertical_chainStyle="packed" />
+    <!--    <EditText-->
+    <!--        android:id="@+id/editPassword"-->
+    <!--        android:layout_width="274dp"-->
+    <!--        android:layout_height="49dp"-->
+    <!--        android:layout_marginTop="40dp"-->
+    <!--        android:ems="10"-->
+    <!--        android:hint="Password"-->
+    <!--        android:inputType="textPassword"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/loginButton"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.524"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/editEmail" />-->
 
-    <EditText
-        android:id="@+id/editPassword"
+    <Button
+        android:id="@+id/signUpButton"
         android:layout_width="274dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        android:layout_height="43dp"
+        android:background="@drawable/button_outline_shape"
+        android:text="Register"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.524"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintVertical_bias="0.187"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="274dp"
         android:layout_height="43dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="56dp"
         android:background="@drawable/button_shape"
         android:text="Sign In"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editPasswordLayout"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editPasswordLayout"
+        android:layout_width="274dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="28dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editEmail"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:layout_width="274dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="196dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <androidx.constraintlayout.widget.Guideline

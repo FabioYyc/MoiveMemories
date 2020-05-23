@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">MoiveMemoir</string>
     <string name="login">Login</string>
+    <string-array name="states">
+        <item>WA</item>
+        <item>NSW</item>
+        <item>VIC</item>
+        <item>SA</item>
+        <item>NT</item>
+        <item>QLD</item>
+
+    </string-array>
 </resources>
