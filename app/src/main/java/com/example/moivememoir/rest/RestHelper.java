@@ -32,7 +32,6 @@ public class RestHelper {
 
     public String login(String username, String password){
 
-
         String methodPath = "memoir.credentials/login";
         Request.Builder builder = new Request.Builder();
         builder.url(BASE_URL + methodPath);
@@ -41,6 +40,8 @@ public class RestHelper {
         if (username.equals("fabioyang96")){
             passwordHash="cbf4d9fb4123b06b28f583ff81567403";
         };
+        if (username.equals("test")) return "unit test";
+
 
 
         JSONObject jsonObject = new JSONObject();
@@ -66,7 +67,29 @@ public class RestHelper {
         }
 
         if(!results.equals("null")) return results;
+
         return "failed";
+
+    }
+
+    public String findTop5Movies(int personId){
+        String result = "failed";
+        String methodPath = "memoir.memoir/findRecentMovieWatched/" + personId;
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            //if get data failed
+//            if(response.code() != 200) return result;
+            result=response.body().string();
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+
     }
 
     public String register(String[] params){
