@@ -1,6 +1,7 @@
 package com.example.moivememoir.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Movie;
+import com.example.moivememoir.ui.MovieViewActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -20,19 +22,34 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter
         <RecyclerViewAdapter.ViewHolder> {
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         // ViewHolder should contain variables for all the views in each row of the
         public TextView tvMovieName;
         public TextView tvReleaseYear;
         public ImageView posterView;
+        private final Context context;
         // a constructor that accepts the entire View (itemView)
         // provides a reference and access to all the views in each row
         public ViewHolder(View itemView) {
             super(itemView);
+            context = itemView.getContext();
             tvMovieName = itemView.findViewById(R.id.movieName);
             tvReleaseYear= itemView.findViewById(R.id.releaseYear);
             posterView=itemView.findViewById(R.id.posterView);
+            itemView.setClickable(true);
+            itemView.setOnClickListener(this);
+
+
         }
+        @Override
+        public void onClick(View v) {
+            final Intent intent;
+            intent = new Intent(context, MovieViewActivity.class);
+            int position = getAdapterPosition();
+            intent.putExtra("movieObject", movieList.get(position));
+            context.startActivity(intent);
+        }
+
     }
 
     @Override
