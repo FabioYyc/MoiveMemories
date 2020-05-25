@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MovieSearch">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="117dp"
+        android:layout_height="98dp"
+        android:src="@drawable/ic_cinema"
+        app:layout_constraintEnd_toStartOf="@+id/searchName"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/searchName"
+        android:layout_width="200dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:ems="10"
+        android:hint="Movie Name"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        tools:layout_editor_absoluteY="19dp" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="196dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:background="@drawable/button_outline_shape"
+        android:text="Search"
+        app:layout_constraintEnd_toEndOf="@+id/searchName"
+        app:layout_constraintTop_toBottomOf="@+id/searchName" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/movieRv"
+        android:layout_width="412dp"
+        android:layout_height="459dp"
+        android:layout_marginTop="140dp"
+        app:layout_constraintEnd_toEndOf="@+id/searchName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/searchName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

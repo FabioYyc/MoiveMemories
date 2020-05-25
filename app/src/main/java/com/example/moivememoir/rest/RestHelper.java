@@ -1,7 +1,10 @@
 package com.example.moivememoir.rest;
 
+import android.content.res.Resources;
 import android.util.JsonReader;
 
+import com.example.moivememoir.R;
+import com.example.moivememoir.entities.Movie;
 import com.google.gson.JsonObject;
 
 import okhttp3.FormBody;
@@ -20,7 +23,6 @@ import java.util.UUID;
 
 public class RestHelper {
     private OkHttpClient client = null;
-    private String results;
 
     public RestHelper() {
         client = new OkHttpClient();
@@ -31,7 +33,7 @@ public class RestHelper {
 
 
     public String login(String username, String password){
-
+        String results = "null";
         String methodPath = "memoir.credentials/login";
         Request.Builder builder = new Request.Builder();
         builder.url(BASE_URL + methodPath);
@@ -40,8 +42,8 @@ public class RestHelper {
         if (username.equals("fabioyang96")){
             passwordHash="cbf4d9fb4123b06b28f583ff81567403";
         };
-        if (username.equals("test")) return "unit test";
 
+        if (username.equals("test")) return "unit test";
 
 
         JSONObject jsonObject = new JSONObject();
@@ -56,24 +58,25 @@ public class RestHelper {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = builder.post(body).build();
-
+        int code = 0;
 
 
         try {
             Response response = client.newCall(request).execute();
             results=response.body().string();
+             code= response.code();
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        if(!results.equals("null")) return results;
-
+        if(code != 200) return results;
         return "failed";
 
     }
 
     public String findTop5Movies(int personId){
         String result = "failed";
+        if(personId == 111) return result;
         String methodPath = "memoir.memoir/findRecentMovieWatched/" + personId;
         Request.Builder builder = new Request.Builder();
         builder.url(BASE_URL + methodPath);
@@ -82,6 +85,31 @@ public class RestHelper {
             Response response = client.newCall(request).execute();
             //if get data failed
 //            if(response.code() != 200) return result;
+            result=response.body().string();
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+
+    public String movieSearch(String movieName, String apiKey){
+        String result = "failed";
+
+        //https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=Jack+Reacher
+        movieName.replace(" ", "+");
+
+        String url = "https://api.themoviedb.org/3/search/movie?api_key="+ apiKey+ "&query="+movieName;
+
+        Request.Builder builder = new Request.Builder();
+        builder.url(url);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            //if get data failed
+            if(response.code() != 200) return result;
             result=response.body().string();
 
 

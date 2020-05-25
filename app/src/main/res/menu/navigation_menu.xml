@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/addMessage"
-        android:title="Add Message" />
+        android:id="@+id/home"
+        android:title="Home" />
     <item
-        android:id="@+id/displayMessage"
-        android:title="Display Message" />
+        android:id="@+id/movieSearch"
+        android:title="Search Movie" />
+
 </menu>

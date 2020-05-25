@@ -45,8 +45,8 @@ public class LoginActivity  extends AppCompatActivity{
                 password = etPassword.getText().toString().trim();
                 String[] details = new String[]{username, password};
                 if (validateInputs()) {
-                LoginTask loginTask = new LoginTask();
-                displayLoader();
+                    displayLoader();
+                    LoginTask loginTask = new LoginTask();
                 loginTask.execute(details);
                 }
             }
