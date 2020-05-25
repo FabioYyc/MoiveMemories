@@ -80,7 +80,8 @@ public class MovieSearch extends Fragment {
 
             String result = "";
             String searchName = params[0];
-            if(searchName == "test"){
+
+            if(searchName == "test"){//so we dont have to call the actual api every time
             Movie movie1= new Movie();
             movie1.setName("Jake Reacher");
             movie1.setReleaseDate(new Date("2010-10-10"));
