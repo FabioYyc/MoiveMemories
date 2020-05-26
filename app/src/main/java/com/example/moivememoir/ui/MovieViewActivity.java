@@ -9,6 +9,7 @@ import com.example.moivememoir.entities.Movie;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -23,8 +24,8 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -36,6 +37,9 @@ public class MovieViewActivity extends AppCompatActivity {
     private TextView tvMovieYear;
     private TextView tvMovieGenre;
     private TextView tvMovieDetails;
+    private TextView tvMovieCast;
+    private TextView tvMovieCountry;
+    private TextView tvMovieDirector;
     private RatingBar ratingBar;
     private ImageView imageView;
     private String genreString;
@@ -56,6 +60,10 @@ public class MovieViewActivity extends AppCompatActivity {
         tvMovieYear = findViewById(R.id.movieYear);
         tvMovieGenre = findViewById(R.id.movieGenres);
         ratingBar = findViewById(R.id.movieRating);
+        tvMovieCast = findViewById(R.id.movieCast);
+        tvMovieCountry = findViewById(R.id.movieCountry);
+        tvMovieDirector = findViewById(R.id.movieDirector);
+
 
 //        String movieName = movie.getName();
 //        etMovieName.setText(movieName);
@@ -67,24 +75,27 @@ public class MovieViewActivity extends AppCompatActivity {
         tvMovieYear.setText(yearStr);
         tvMovieName.setText(movie.getName());
         tvMovieDetails.setText(movie.getDetail());
-        FindGenreTask findGenreTask = new FindGenreTask();
-        String apiKey = getString(R.string.movie_db_api_key);
-        findGenreTask.execute(apiKey);
         ratingBar.setRating(movie.getRating());
+
+        GetMovieDetails getMovieDetails = new GetMovieDetails();
+        String apiKey = getString(R.string.movie_db_api_key);
+        //set genre, country, director and cast
+        getMovieDetails.execute(apiKey);
 
         String url = movie.getImageLink();
         Picasso.get().load(url).into(imageView);
 
     }
 
-    private class FindGenreTask extends AsyncTask<String, Void, String> {
+    private class GetMovieDetails extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
             OkHttpClient client = new OkHttpClient();
-            String baseUrl = "https://api.themoviedb.org/3/genre/movie/list?api_key=";
+            String baseUrl = "https://api.themoviedb.org/3/movie/" + movie.getId() + "?" + "api_key=";
+
             String apiKey = params[0];
-            String url = baseUrl + apiKey + "&language=en-US";
+            String url = baseUrl + apiKey + "&append_to_response=credits";
             String result = "failed";
 
             Request.Builder builder = new Request.Builder();
@@ -107,35 +118,58 @@ public class MovieViewActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if (result != "failed") {
-                String genreNames = "";
-                genreString = result;
-                int[] genreIds = movie.getGenreIds();
-                Map<Integer, String> genreMap = new HashMap<Integer, String>();
-                try {
-                    JSONObject genreJson = new JSONObject(genreString);
+                JSONArray genreArray;
+                JSONArray countryArray;
+                JSONArray castArray;
+                JSONArray crewArray;
+                String director;
+                String countryStr;
+                String castStr;
+                String genreString;
 
-                    JSONArray array = genreJson.getJSONArray("genres");
-                    //only take the first 5 genre names
-                    for (int i = 0; i < array.length() || i < 5; i++) {
-                        JSONObject jsonObj = array.getJSONObject(i);
-                        genreMap.put(jsonObj.getInt("id"), jsonObj.getString("name"));
+                try {
+                    JSONObject returnJson = new JSONObject(result);
+                    genreArray = returnJson.getJSONArray("genres");
+                    countryArray = returnJson.getJSONArray("production_countries");
+                    castArray = returnJson.getJSONObject("credits").getJSONArray("cast");
+                    crewArray = returnJson.getJSONObject("credits").getJSONArray("crew");
+
+                    genreString = turnJsonArrayToString(genreArray, "name");
+                    countryStr= turnJsonArrayToString(countryArray,"name");
+                    castStr = turnJsonArrayToString(castArray,"name");
+
+                    tvMovieGenre.setText(genreString);
+                    tvMovieCast.setText(castStr);
+                    tvMovieCountry.setText(countryStr);
+                    //find the director
+                    for (int i = 0; i < crewArray.length(); i++) {
+                        JSONObject obj = crewArray.getJSONObject(i);
+                        if(obj.getString("job").equals("Director")) tvMovieDirector
+                                .setText(obj.getString("name"));
                     }
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if (genreIds != null || genreIds.length!=0) {
-                    for (int genreId : genreIds) {
-                        String genreName = genreMap.get(genreId);
-                        if (genreName != null) genreNames += genreName + " | ";
-                    }
-                    tvMovieGenre.setText(genreNames);
-                }
+
+
+
             }
-
-
         }
+
+
     }
 
+    private String turnJsonArrayToString(JSONArray jsonArray, String keyName) throws JSONException {
+        List<String> stringArray=  new ArrayList<>();
+        for (int i = 0; i < jsonArray.length() && i<=5; i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+            stringArray.add(obj.getString(keyName));
 
+        }
+        String retString = TextUtils.join(", ", stringArray);
+        return retString;
+    }
 }

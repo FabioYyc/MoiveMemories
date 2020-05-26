@@ -20,23 +20,26 @@
     <TextView
         android:id="@+id/movieName"
         android:layout_width="184dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
         android:layout_marginRight="28dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="48dp"
         android:gravity="center"
-        android:textSize="30sp"
+        android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@+id/releaseYear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/posterView" />
+        app:layout_constraintStart_toEndOf="@+id/posterView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.952" />
 
     <TextView
         android:id="@+id/releaseYear"
         android:layout_width="185dp"
         android:layout_height="37dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:textSize="30sp"
+        android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="@+id/posterView"
         app:layout_constraintStart_toStartOf="@+id/movieName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

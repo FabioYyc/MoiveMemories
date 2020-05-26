@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -96,16 +97,7 @@ public class MovieSearch extends Fragment {
                         "in order to clear his name. On the run as a fugitive from the law, " +
                         "Reacher uncovers a potential secret from his past that could change his life forever.");
                 movie1.setImageLink("https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg");
-                int[] genreIds = {
-                        53,
-                        28,
-                        80,
-                        18,
-                        9648
-                };
-
-                movie1.setGenreIds(genreIds);
-                movie1.setRating(4.8f);
+                movie1.setRating(4.8f/2);
                 movie1.setId(343611);
                 retMovieList.add(movie1);
                 return retMovieList;
@@ -154,18 +146,8 @@ public class MovieSearch extends Fragment {
                     movie.setReleaseDate(releaseDate);
                     movie.setName(obj.getString("title"));
                     movie.setId(obj.getInt("id"));
-
-                    //get the genre id arrays
-                    JSONArray genresJson = obj.getJSONArray("genre_ids");
-                    // Create an int array to accomodate the numbers.
-                    int[] genreIds = new int[genresJson.length()];
-
-                    for (int j = 0; j < genresJson.length(); ++j) {
-                        genreIds[j] = genresJson.optInt(j);
-                    }
-
-                    movie.setGenreIds(genreIds);
-                    movie.setRating(obj.getInt("vote_average"));
+                    float myFloatValue = BigDecimal.valueOf(obj.getDouble("vote_average")).floatValue();
+                    movie.setRating(myFloatValue/2);
 
                     retMovieList.add(movie);
 

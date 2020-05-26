@@ -11,7 +11,6 @@ public class Movie  {
     private String name;
     private Date releaseDate;
     private String detail;
-    private int[] genreIds;
     private String[] genreNames;
     private int id;
 
@@ -39,13 +38,6 @@ public class Movie  {
         this.rating = rating;
     }
 
-    public int[] getGenreIds() {
-        return genreIds;
-    }
-
-    public void setGenreIds(int[] genreIds) {
-        this.genreIds = genreIds;
-    }
 
     public String getGenre() {
         return genre;
