@@ -7,30 +7,45 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Movie implements Parcelable {
+public class Movie  {
     private String name;
     private Date releaseDate;
     private String detail;
+    private int[] genreIds;
+    private String[] genreNames;
+    private int id;
 
-    protected Movie(Parcel in) {
-        name = in.readString();
-        detail = in.readString();
-        imageLink = in.readString();
-        genre = in.readString();
-        rating = in.readInt();
+    public int getId() {
+        return id;
     }
 
-    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
+    public String[] getGenreNames() {
+        return genreNames;
+    }
+
+    public void setGenreNames(String[] genreNames) {
+        this.genreNames = genreNames;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public int[] getGenreIds() {
+        return genreIds;
+    }
+
+    public void setGenreIds(int[] genreIds) {
+        this.genreIds = genreIds;
+    }
 
     public String getGenre() {
         return genre;
@@ -40,17 +55,11 @@ public class Movie implements Parcelable {
         this.genre = genre;
     }
 
-    public int getRating() {
-        return rating;
-    }
 
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
 
     private String imageLink;
     private String genre;
-    private int rating;
+    private float  rating;
 
     public Movie(String name, Date releaseDate) {
         this.name = name;
@@ -101,22 +110,4 @@ public class Movie implements Parcelable {
         this.imageLink = imageLink;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-        String strDate = dateFormat.format(releaseDate);
-
-        parcel.writeInt(rating);
-        parcel.writeString(name);
-        parcel.writeString(strDate);
-        parcel.writeString(detail);
-        parcel.writeString(imageLink);
-        parcel.writeString(genre);
-
-    }
 }

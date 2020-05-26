@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Movie;
 import com.example.moivememoir.ui.MovieViewActivity;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -46,7 +47,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
             final Intent intent;
             intent = new Intent(context, MovieViewActivity.class);
             int position = getAdapterPosition();
-            intent.putExtra("movieObject", movieList.get(position));
+            Movie movieObj =  movieList.get(position);
+            Gson gson = new Gson();
+            intent.putExtra("movieObject", gson.toJson(movieObj));
+            intent.putExtra("test", "test str");
             context.startActivity(intent);
         }
 

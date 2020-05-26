@@ -70,6 +70,7 @@ public class MovieSearch extends Fragment {
 
         return view;
     }
+
     private class SearchMovieTask extends AsyncTask<String, Void, List<Movie>> {
 
         @Override
@@ -81,27 +82,38 @@ public class MovieSearch extends Fragment {
             String result = "";
             String searchName = params[0];
 
-            if(searchName.equals("test")){//so we dont have to call the actual api every time
-            Movie movie1= new Movie();
-            movie1.setName("Jake Reacher");
-                Date date1= null;
+            if (searchName.equals("test")) {//so we dont have to call the actual api every time
+                Movie movie1 = new Movie();
+                movie1.setName("Jake Reacher");
+                Date date1 = null;
                 try {
                     date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2010-10-01");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 movie1.setReleaseDate(date1);
-            movie1.setDetail("Jack Reacher must uncover the truth behind a major government conspiracy " +
-                    "in order to clear his name. On the run as a fugitive from the law, " +
-                    "Reacher uncovers a potential secret from his past that could change his life forever.");
-            movie1.setImageLink("https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg");
-            retMovieList.add(movie1);
-            return retMovieList;
+                movie1.setDetail("Jack Reacher must uncover the truth behind a major government conspiracy " +
+                        "in order to clear his name. On the run as a fugitive from the law, " +
+                        "Reacher uncovers a potential secret from his past that could change his life forever.");
+                movie1.setImageLink("https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg");
+                int[] genreIds = {
+                        53,
+                        28,
+                        80,
+                        18,
+                        9648
+                };
+
+                movie1.setGenreIds(genreIds);
+                movie1.setRating(4.8f);
+                movie1.setId(343611);
+                retMovieList.add(movie1);
+                return retMovieList;
 
             }
 
 
-            result = restHelper.movieSearch(searchName,apiKey );
+            result = restHelper.movieSearch(searchName, apiKey);
             if (result.equals("failed")) return retMovieList;
 
 
@@ -141,6 +153,20 @@ public class MovieSearch extends Fragment {
                     Date releaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(obj.getString("release_date"));
                     movie.setReleaseDate(releaseDate);
                     movie.setName(obj.getString("title"));
+                    movie.setId(obj.getInt("id"));
+
+                    //get the genre id arrays
+                    JSONArray genresJson = obj.getJSONArray("genre_ids");
+                    // Create an int array to accomodate the numbers.
+                    int[] genreIds = new int[genresJson.length()];
+
+                    for (int j = 0; j < genresJson.length(); ++j) {
+                        genreIds[j] = genresJson.optInt(j);
+                    }
+
+                    movie.setGenreIds(genreIds);
+                    movie.setRating(obj.getInt("vote_average"));
+
                     retMovieList.add(movie);
 
                 }
@@ -160,9 +186,7 @@ public class MovieSearch extends Fragment {
             if (myMovieList.isEmpty()) {
                 toast.setText("Cannot find movie");
                 toast.show();
-            }
-            else movieList = myMovieList;
-
+            } else movieList = myMovieList;
             adapter = new RecyclerViewAdapter(movieList);
             recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                     LinearLayoutManager.VERTICAL));
