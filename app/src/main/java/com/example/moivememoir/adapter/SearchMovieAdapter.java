@@ -1,7 +1,7 @@
 package com.example.moivememoir.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Movie;
-import com.example.moivememoir.ui.MovieViewActivity;
+import com.example.moivememoir.ui.MovieViewFragment;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -21,8 +25,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter
-        <RecyclerViewAdapter.ViewHolder> {
+public class SearchMovieAdapter extends RecyclerView.Adapter
+        <SearchMovieAdapter.ViewHolder> {
+
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         // ViewHolder should contain variables for all the views in each row of the
         public TextView tvMovieName;
@@ -44,16 +50,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
         }
         @Override
         public void onClick(View v) {
-            final Intent intent;
-            intent = new Intent(context, MovieViewActivity.class);
+            Bundle bundle = new Bundle();
             int position = getAdapterPosition();
             Movie movieObj =  movieList.get(position);
             Gson gson = new Gson();
-            intent.putExtra("movieObject", gson.toJson(movieObj));
-            intent.putExtra("test", "test str");
-            context.startActivity(intent);
+//            intent.putExtra("movieObject", gson.toJson(movieObj));
+//            intent.putExtra("test", "test str");
+//            context.startActivity(intent);
+            bundle.putString("movieJson", gson.toJson(movieObj));
+            MovieViewFragment fragment = new MovieViewFragment();
+            fragment.setArguments(bundle);
+            replaceFragment(fragment, v);
         }
 
+    }
+    private void replaceFragment(Fragment nextFragment, View v) {
+        AppCompatActivity activity = (AppCompatActivity) v.getContext();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, nextFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -63,7 +79,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
     public List<Movie> movieList;
 
     // Pass in the contact array into the constructor
-    public RecyclerViewAdapter(List<Movie> movies) {
+    public SearchMovieAdapter(List<Movie> movies) {
         movieList = movies;
     }
 
@@ -74,8 +90,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
 //    //This method creates a new view holder that is constructed with a new View, inflated
 //    from a layout
     @Override
-    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                             int viewType) {
+    public SearchMovieAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                            int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         // Inflate the view from an XML layout file
@@ -86,7 +102,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
     }
     // this method binds the view holder created with data that will be displayed
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder viewHolder,
+    public void onBindViewHolder(@NonNull SearchMovieAdapter.ViewHolder viewHolder,
                                  int position) {
         final Movie movie = movieList.get(position);
         // viewholder binding with its data at the specified position

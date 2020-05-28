@@ -1,13 +1,5 @@
-package com.example.moivememoir.rest;
+package com.example.moivememoir.helpers;
 
-import android.content.res.Resources;
-import android.util.JsonReader;
-
-import com.example.moivememoir.R;
-import com.example.moivememoir.entities.Movie;
-import com.google.gson.JsonObject;
-
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -19,7 +11,6 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.UUID;
 
 public class RestHelper {
     private OkHttpClient client = null;

@@ -13,25 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.moivememoir.R;
-import com.example.moivememoir.adapter.RecyclerViewAdapter;
+import com.example.moivememoir.adapter.SearchMovieAdapter;
 import com.example.moivememoir.entities.Movie;
-import com.example.moivememoir.rest.RestHelper;
+import com.example.moivememoir.helpers.RestHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -47,7 +44,7 @@ public class MovieSearch extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private RecyclerViewAdapter adapter;
+    private SearchMovieAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -169,10 +166,10 @@ public class MovieSearch extends Fragment {
                 toast.setText("Cannot find movie");
                 toast.show();
             } else movieList = myMovieList;
-            adapter = new RecyclerViewAdapter(movieList);
+            adapter = new SearchMovieAdapter(movieList);
             recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                     LinearLayoutManager.VERTICAL));
-            recyclerView.setAdapter(adapter);
+            recyclerView.setAdapter(new SearchMovieAdapter(movieList));
             layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
 

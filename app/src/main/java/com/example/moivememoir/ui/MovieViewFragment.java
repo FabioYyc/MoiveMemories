@@ -1,15 +1,17 @@
 package com.example.moivememoir.ui;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.moivememoir.entities.Movie;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -31,7 +33,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MovieViewActivity extends AppCompatActivity {
+public class MovieViewFragment extends Fragment {
     private Movie movie;
     private TextView tvMovieName;
     private TextView tvMovieYear;
@@ -42,48 +44,59 @@ public class MovieViewActivity extends AppCompatActivity {
     private TextView tvMovieDirector;
     private RatingBar ratingBar;
     private ImageView imageView;
+    private Button addWatchlist;
     private String genreString;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         Gson gson = new Gson();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_view);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Intent mIntent = getIntent();
+        View view = inflater.inflate(R.layout.fragment_movie_view, container, false);
+
+        //todo: get data from the recycler view
+//        Intent mIntent = getIntent();
 //        movie = mIntent.getExtras().getParcelable("movieObject");
-        tvMovieName = findViewById(R.id.movieName);
-        imageView = findViewById(R.id.moviePoster);
-        tvMovieDetails = findViewById(R.id.movieDetails);
-        tvMovieYear = findViewById(R.id.movieYear);
-        tvMovieGenre = findViewById(R.id.movieGenres);
-        ratingBar = findViewById(R.id.movieRating);
-        tvMovieCast = findViewById(R.id.movieCast);
-        tvMovieCountry = findViewById(R.id.movieCountry);
-        tvMovieDirector = findViewById(R.id.movieDirector);
+        tvMovieName = view.findViewById(R.id.movieName);
+        imageView = view.findViewById(R.id.moviePoster);
+        tvMovieDetails = view.findViewById(R.id.movieDetails);
+        tvMovieYear = view.findViewById(R.id.movieYear);
+        tvMovieGenre = view.findViewById(R.id.movieGenres);
+        ratingBar = view.findViewById(R.id.movieRating);
+        tvMovieCast = view.findViewById(R.id.movieCast);
+        tvMovieCountry = view.findViewById(R.id.movieCountry);
+        tvMovieDirector = view.findViewById(R.id.movieDirector);
 
 
 //        String movieName = movie.getName();
 //        etMovieName.setText(movieName);
-        String test = mIntent.getStringExtra("test");
-        String movieJson = mIntent.getStringExtra("movieObject");
-        movie = gson.fromJson(movieJson, Movie.class);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy");
-        String yearStr = dateFormat.format(movie.getReleaseDate());
-        tvMovieYear.setText(yearStr);
-        tvMovieName.setText(movie.getName());
-        tvMovieDetails.setText(movie.getDetail());
-        ratingBar.setRating(movie.getRating());
+//        String test = mIntent.getStringExtra("test");
+//        String movieJson = mIntent.getStringExtra("movieObject");
+        Bundle bundle = this.getArguments();
+        String movieJson ="";
+        if (bundle != null) {
+             movieJson = bundle.getString("movieJson");
+            movie = gson.fromJson(movieJson, Movie.class);
 
-        GetMovieDetails getMovieDetails = new GetMovieDetails();
-        String apiKey = getString(R.string.movie_db_api_key);
-        //set genre, country, director and cast
-        getMovieDetails.execute(apiKey);
+        }
+        if(movie!=null) {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy");
+            String yearStr = dateFormat.format(movie.getReleaseDate());
+            tvMovieYear.setText(yearStr);
+            tvMovieName.setText(movie.getName());
+            tvMovieDetails.setText(movie.getDetail());
+            ratingBar.setRating(movie.getRating());
 
-        String url = movie.getImageLink();
-        Picasso.get().load(url).into(imageView);
+            GetMovieDetails getMovieDetails = new GetMovieDetails();
+            String apiKey = getString(R.string.movie_db_api_key);
+            //set genre, country, director and cast
+            getMovieDetails.execute(apiKey);
+
+            String url = movie.getImageLink();
+            Picasso.get().load(url).into(imageView);
+        }
+        return view;
 
     }
 

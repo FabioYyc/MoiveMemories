@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Person;
-import com.example.moivememoir.rest.RestHelper;
+import com.example.moivememoir.helpers.RestHelper;
 import com.google.gson.Gson;
 
 public class LoginActivity  extends AppCompatActivity{

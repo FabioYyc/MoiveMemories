@@ -1,6 +1,5 @@
 package com.example.moivememoir.ui;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Person;
-import com.example.moivememoir.rest.RestHelper;
-import com.google.gson.Gson;
+import com.example.moivememoir.helpers.RestHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +23,6 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -44,30 +41,30 @@ public class HomeFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        MainActivity activity = (MainActivity) getActivity();
-        Person user = activity.getUser();
-        Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy");
-        String curDate = dateFormat.format(date);
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            MainActivity activity = (MainActivity) getActivity();
+            Person user = activity.getUser();
+            Date date = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy");
+            String curDate = dateFormat.format(date);
 
-        View view = inflater.inflate(R.layout.home_main, container, false);
-        tvGreeting = view.findViewById(R.id.tvGreeting);
-        tvDate = view.findViewById(R.id.tvDate);
-        tvGreeting.setText("Hello " + user.getPersonName());
-        tvDate.setText(curDate);
+            View view = inflater.inflate(R.layout.home_main, container, false);
+            tvGreeting = view.findViewById(R.id.tvGreeting);
+            tvDate = view.findViewById(R.id.tvDate);
+            tvGreeting.setText("Hello " + user.getPersonName());
+            tvDate.setText(curDate);
 
-        movieList = view.findViewById(R.id.topMoviesView);
+            movieList = view.findViewById(R.id.topMoviesView);
 
-        movieListArray = new ArrayList<HashMap<String, String>>();
-        GetMoviesTask getMoviesTask = new GetMoviesTask();
-        getMoviesTask.execute(user.getPersonId());
+            movieListArray = new ArrayList<HashMap<String, String>>();
+            GetMoviesTask getMoviesTask = new GetMoviesTask();
+            getMoviesTask.execute(user.getPersonId());
 
-        return view;
+            return view;
 
 
-    }
+        }
 
     private class GetMoviesTask extends AsyncTask<Integer, Void, List<HashMap<String, String>>> {
 

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MovieViewActivity">
+    tools:context=".ui.MovieViewFragment">
 
     <Button
-        android:id="@+id/addWatchList2"
+        android:id="@+id/addWatchList"
         android:layout_width="144dp"
         android:layout_height="35dp"
         android:layout_marginTop="32dp"
@@ -179,7 +179,7 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/button_outline_shape"
         android:text="Add to Memoir"
-        app:layout_constraintStart_toEndOf="@+id/addWatchList2"
+        app:layout_constraintStart_toEndOf="@+id/addWatchList"
         app:layout_constraintTop_toBottomOf="@+id/movieDetails" />
 
 

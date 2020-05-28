@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.MovieViewActivity"
+            android:name=".ui.MovieViewFragment"
             android:label="@string/title_activity_movie_view"
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>
