@@ -17,10 +17,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Person;
+import com.example.moivememoir.viewModel.WatchListViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    private WatchListViewModel viewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,13 @@ public class MainActivity extends AppCompatActivity implements
         if (bar != null) {
             bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#26cbf0")));
         }
+
+        viewModel = new
+                ViewModelProvider(this ).get(WatchListViewModel .class);
+
+        viewModel.initalizeVars(getApplication());
+
+
         Intent mIntent = getIntent();
         user = mIntent.getParcelableExtra("userObject");
 
@@ -69,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.movieSearch:
                 replaceFragment(new MovieSearch());
                 break;
+            case R.id.watchlist:
+                replaceFragment(new WatchlistFragment());
+                break;
+
         }
         //this code closes the drawer after you selected an item from the menu,
 //        otherwise stay open

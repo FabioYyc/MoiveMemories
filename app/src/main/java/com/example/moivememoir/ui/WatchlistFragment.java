@@ -7,28 +7,48 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moivememoir.R;
-import com.example.moivememoir.entities.Person;
+import com.example.moivememoir.adapter.WatchlistAdapter;
+import com.example.moivememoir.entities.MovieToWatch;
 import com.example.moivememoir.viewModel.WatchListViewModel;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 
 public class WatchlistFragment extends Fragment {
     private TextView tvWatchlist;
     private WatchListViewModel watchListViewModel;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private WatchlistAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_watchlist, container, false);
-        tvWatchlist = view.findViewById(R.id.testWatchlist);
-        watchListViewModel = new ViewModelProvider(getActivity()).get(WatchListViewModel.class);
+        recyclerView = view.findViewById(R.id.watchlistView);
+        tvWatchlist = view.findViewById(R.id.watchlistTitle);
+        watchListViewModel = new
+                ViewModelProvider(getActivity()).get(WatchListViewModel.class);
+
+        watchListViewModel.getWatchlist().observe(getViewLifecycleOwner(), new Observer<List<MovieToWatch>>() {
+            @Override
+            public void onChanged(List<MovieToWatch> movieToWatches) {
+
+                //todo: add recycler view
+                adapter = new WatchlistAdapter(movieToWatches);
+                recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                        LinearLayoutManager.VERTICAL));
+                recyclerView.setAdapter(new WatchlistAdapter(movieToWatches));
+                layoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(layoutManager);
+
+            }
+        });
 
         return view;
 

@@ -19,6 +19,10 @@ public class MovieToWatch {
     @ColumnInfo(name = "movieDB_id")
     public int movieDBId;
 
+    public MovieToWatch() {
+
+    }
+
     public MovieToWatch(int movieId, String name, String addedDate, String releaseDate, int movieDBId) {
         this.movieId = movieId;
         this.name = name;

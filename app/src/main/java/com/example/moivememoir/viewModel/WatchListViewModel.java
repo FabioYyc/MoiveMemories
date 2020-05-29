@@ -23,7 +23,7 @@ public class WatchListViewModel extends ViewModel {
         watchList.setValue(movies);
     }
 
-    public LiveData<List<MovieToWatch>> getAllCustomers() {
+    public LiveData<List<MovieToWatch>> getWatchlist() {
         return mRepo.getWatchList();
     }
 

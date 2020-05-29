@@ -7,13 +7,23 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/testWatchlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginLeft="88dp"
-        android:layout_marginTop="160dp"
-        android:text="TextView"
+        android:id="@+id/watchlistTitle"
+        android:layout_width="178dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="64dp"
+        android:text="Your Watchlist"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/watchlistView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/watchlistTitle"
+        app:layout_constraintTop_toBottomOf="@+id/watchlistTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

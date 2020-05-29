@@ -3,9 +3,11 @@ package com.example.moivememoir.ui;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.example.moivememoir.database.WatchListDB;
 import com.example.moivememoir.entities.Movie;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,8 +17,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.moivememoir.R;
+import com.example.moivememoir.entities.MovieToWatch;
+import com.example.moivememoir.viewModel.WatchListViewModel;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +32,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -46,6 +52,7 @@ public class MovieViewFragment extends Fragment {
     private ImageView imageView;
     private Button addWatchlist;
     private String genreString;
+    private WatchListViewModel viewModel;
 
 
     @Override
@@ -67,6 +74,10 @@ public class MovieViewFragment extends Fragment {
         tvMovieCast = view.findViewById(R.id.movieCast);
         tvMovieCountry = view.findViewById(R.id.movieCountry);
         tvMovieDirector = view.findViewById(R.id.movieDirector);
+        addWatchlist = view.findViewById(R.id.addWatchList);
+
+        viewModel = new
+                ViewModelProvider(getActivity()).get(WatchListViewModel.class);
 
 
 //        String movieName = movie.getName();
@@ -74,13 +85,13 @@ public class MovieViewFragment extends Fragment {
 //        String test = mIntent.getStringExtra("test");
 //        String movieJson = mIntent.getStringExtra("movieObject");
         Bundle bundle = this.getArguments();
-        String movieJson ="";
+        String movieJson = "";
         if (bundle != null) {
-             movieJson = bundle.getString("movieJson");
+            movieJson = bundle.getString("movieJson");
             movie = gson.fromJson(movieJson, Movie.class);
 
         }
-        if(movie!=null) {
+        if (movie != null) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy");
             String yearStr = dateFormat.format(movie.getReleaseDate());
             tvMovieYear.setText(yearStr);
@@ -95,8 +106,32 @@ public class MovieViewFragment extends Fragment {
 
             String url = movie.getImageLink();
             Picasso.get().load(url).into(imageView);
+            initAddWatchlistListener();
+
+
         }
         return view;
+
+    }
+
+    private void initAddWatchlistListener() {
+
+        addWatchlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MovieToWatch movieToWatch = new MovieToWatch();
+                movieToWatch.setName(movie.getName());
+                movieToWatch.setMovieDBId(movie.getId());
+                movieToWatch.setReleaseDate(movie.getReleaseDate().toString());
+                Date date = new Date();
+                String dateStr = date.toString();
+                movieToWatch.setAddedDate(dateStr);
+                viewModel.insert(movieToWatch);
+                Toast toast=Toast.makeText(getActivity(),"Movie added to watchlist",Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
 
     }
 
@@ -148,8 +183,8 @@ public class MovieViewFragment extends Fragment {
                     crewArray = returnJson.getJSONObject("credits").getJSONArray("crew");
 
                     genreString = turnJsonArrayToString(genreArray, "name");
-                    countryStr= turnJsonArrayToString(countryArray,"name");
-                    castStr = turnJsonArrayToString(castArray,"name");
+                    countryStr = turnJsonArrayToString(countryArray, "name");
+                    castStr = turnJsonArrayToString(castArray, "name");
 
                     tvMovieGenre.setText(genreString);
                     tvMovieCast.setText(castStr);
@@ -157,16 +192,14 @@ public class MovieViewFragment extends Fragment {
                     //find the director
                     for (int i = 0; i < crewArray.length(); i++) {
                         JSONObject obj = crewArray.getJSONObject(i);
-                        if(obj.getString("job").equals("Director")) tvMovieDirector
+                        if (obj.getString("job").equals("Director")) tvMovieDirector
                                 .setText(obj.getString("name"));
                     }
-
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
 
             }
@@ -176,8 +209,8 @@ public class MovieViewFragment extends Fragment {
     }
 
     private String turnJsonArrayToString(JSONArray jsonArray, String keyName) throws JSONException {
-        List<String> stringArray=  new ArrayList<>();
-        for (int i = 0; i < jsonArray.length() && i<=5; i++) {
+        List<String> stringArray = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length() && i <= 5; i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
             stringArray.add(obj.getString(keyName));
 
@@ -185,4 +218,7 @@ public class MovieViewFragment extends Fragment {
         String retString = TextUtils.join(", ", stringArray);
         return retString;
     }
+
 }
+
+
