@@ -59,11 +59,11 @@ public class WatchListRepo {
         });
     }
 
-    public MovieToWatch findByID(final int movieId){
+    public MovieToWatch findByID(final int movieDBId){
         WatchListDB.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                MovieToWatch runMovie= dao.findByID(movieId);
+                MovieToWatch runMovie= dao.findByDBId(movieDBId);
                 setMovieToWatch(runMovie);
             }
         });

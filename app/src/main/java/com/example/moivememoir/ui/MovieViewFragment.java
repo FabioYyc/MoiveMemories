@@ -1,5 +1,6 @@
 package com.example.moivememoir.ui;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.MovieToWatch;
+import com.example.moivememoir.entities.Person;
 import com.example.moivememoir.viewModel.WatchListViewModel;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -104,10 +106,16 @@ public class MovieViewFragment extends Fragment {
             //set genre, country, director and cast
             getMovieDetails.execute(apiKey);
 
-            String url = movie.getImageLink();
-            Picasso.get().load(url).into(imageView);
-            initAddWatchlistListener();
+            if(movie.getImageLink()!=null) {
+                String url = movie.getImageLink();
+                Picasso.get().load(url).into(imageView);
+            }
 
+            initAddWatchlistListener();
+            int id = movie.getId();
+            MovieToWatch movieToWatch = viewModel.findByID(id);
+            CheckIfExistTask checkIfExistTask = new CheckIfExistTask();
+            checkIfExistTask.execute(movie.getId());
 
         }
         return view;
@@ -119,6 +127,7 @@ public class MovieViewFragment extends Fragment {
         addWatchlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 MovieToWatch movieToWatch = new MovieToWatch();
                 movieToWatch.setName(movie.getName());
                 movieToWatch.setMovieDBId(movie.getId());
@@ -129,6 +138,7 @@ public class MovieViewFragment extends Fragment {
                 viewModel.insert(movieToWatch);
                 Toast toast=Toast.makeText(getActivity(),"Movie added to watchlist",Toast.LENGTH_SHORT);
                 toast.show();
+                addWatchlist.setEnabled(false);
             }
         });
 
@@ -196,6 +206,19 @@ public class MovieViewFragment extends Fragment {
                                 .setText(obj.getString("name"));
                     }
 
+                    if(movie.getImageLink()==null){
+                        String url = returnJson.getString("backdrop_path");
+                        String posterBasePath = "https://image.tmdb.org/t/p/w500";
+                        url = posterBasePath+url;
+                        Picasso.get().load(url).into(imageView);
+
+                    }
+                    if(movie.getDetail() == null){
+                        String overview = returnJson.getString("overview");
+                        movie.setDetail(overview);
+                        tvMovieDetails.setText(overview);
+                    }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -217,6 +240,24 @@ public class MovieViewFragment extends Fragment {
         }
         String retString = TextUtils.join(", ", stringArray);
         return retString;
+    }
+
+    private class CheckIfExistTask extends AsyncTask<Integer, Void, MovieToWatch> {
+
+        @Override
+        protected MovieToWatch doInBackground(Integer... params) {
+            int movieDBId = params[0];
+            MovieToWatch movie = viewModel.findByID(movieDBId);
+
+            return movie;
+        }
+
+        @Override
+        protected void onPostExecute(MovieToWatch exist) {
+            if(exist != null) addWatchlist.setEnabled(false);
+            else initAddWatchlistListener();
+
+        }
     }
 
 }

@@ -9,15 +9,15 @@ import java.util.Date;
 @Entity
 public class MovieToWatch {
     @PrimaryKey(autoGenerate = true)
-    public int movieId;
+    private int movieId;
     @ColumnInfo(name = "movie_name")
-    public String name;
+    private String name;
     @ColumnInfo(name = "added_date")
-    public String addedDate;
+    private String addedDate;
     @ColumnInfo(name = "release_date")
-    public String releaseDate;
+    private String releaseDate;
     @ColumnInfo(name = "movieDB_id")
-    public int movieDBId;
+    private int movieDBId;
 
     public MovieToWatch() {
 

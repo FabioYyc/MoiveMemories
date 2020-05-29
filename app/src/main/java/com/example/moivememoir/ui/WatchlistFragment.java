@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,8 @@ public class WatchlistFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private WatchlistAdapter adapter;
+    private Button deleteAll;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,6 +37,13 @@ public class WatchlistFragment extends Fragment {
         tvWatchlist = view.findViewById(R.id.watchlistTitle);
         watchListViewModel = new
                 ViewModelProvider(getActivity()).get(WatchListViewModel.class);
+        deleteAll = view.findViewById(R.id.watchlistDeleteAll);
+        deleteAll.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                watchListViewModel.deleteAll();
+            }
+        });
+
 
         watchListViewModel.getWatchlist().observe(getViewLifecycleOwner(), new Observer<List<MovieToWatch>>() {
             @Override

@@ -42,6 +42,7 @@ public class WatchListViewModel extends ViewModel {
     public void delete(MovieToWatch movie) {
         mRepo.delete(movie);
     }
+    public void deleteAll(){mRepo.deleteAll();}
     public MovieToWatch findByID(int movieId){
         return mRepo.findByID(movieId);
     }
