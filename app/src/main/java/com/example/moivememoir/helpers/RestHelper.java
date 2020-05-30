@@ -232,6 +232,31 @@ public class RestHelper {
 
     }
 
+    public String getWatchesPerMonth(int personId, String year){
+        String result = "failed";
+//        if(personId == 111) return result;
+
+        String methodPath = "memoir.memoir/findTotalWatchedPerMonth/" + personId +"/"
+                + year;
+
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            //if get data failed
+//            if(response.code() != 200) return result;
+            result=response.body().string();
+
+            if(response.code() !=200) return "failed";
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+
 
 
     public Boolean createPerson(JSONObject personObj){
