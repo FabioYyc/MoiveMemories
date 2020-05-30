@@ -1,4 +1,4 @@
-package com.example.moivememoir.ui;
+package com.example.moivememoir.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;

@@ -1,4 +1,4 @@
-package com.example.moivememoir.ui;
+package com.example.moivememoir.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

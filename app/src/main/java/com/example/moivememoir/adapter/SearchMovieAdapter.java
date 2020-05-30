@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Movie;
-import com.example.moivememoir.ui.MovieViewFragment;
+import com.example.moivememoir.ui.fragments.MovieViewFragment;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 

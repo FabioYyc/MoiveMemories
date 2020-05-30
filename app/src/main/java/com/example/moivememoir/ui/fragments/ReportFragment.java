@@ -1,4 +1,4 @@
-package com.example.moivememoir.ui;
+package com.example.moivememoir.ui.fragments;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Person;
 import com.example.moivememoir.helpers.RestHelper;
+import com.example.moivememoir.ui.activities.MainActivity;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -43,7 +43,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ReportFragment extends Fragment {
+public class ReportFragment extends Fragment  {
     PieChart pieChart;
     RestHelper restHelper;
     TextView tvStartDate;

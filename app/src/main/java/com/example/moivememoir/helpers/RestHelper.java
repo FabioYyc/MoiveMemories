@@ -257,6 +257,28 @@ public class RestHelper {
 
     }
 
+    public String getCinemas(){
+        String methodPath = "memoir.cinema";
+        String result = "failed";
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            //if get data failed
+//            if(response.code() != 200) return result;
+            result=response.body().string();
+
+            if(response.code() ==200) return result;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+
+
+    }
+
 
 
     public Boolean createPerson(JSONObject personObj){

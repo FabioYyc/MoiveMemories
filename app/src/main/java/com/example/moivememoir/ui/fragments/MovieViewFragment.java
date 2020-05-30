@@ -1,4 +1,4 @@
-package com.example.moivememoir.ui;
+package com.example.moivememoir.ui.fragments;
 
 import android.content.Intent;
 import android.os.AsyncTask;

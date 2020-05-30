@@ -1,4 +1,4 @@
-package com.example.moivememoir.ui;
+package com.example.moivememoir.ui.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieSearch extends Fragment {
+public class MovieSearchFragment extends Fragment {
 
 
     private EditText etSearch;

@@ -1,4 +1,4 @@
-package com.example.moivememoir.ui;
+package com.example.moivememoir.ui.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -22,8 +22,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Person;
+import com.example.moivememoir.ui.fragments.HomeFragment;
+import com.example.moivememoir.ui.fragments.MovieSearchFragment;
+import com.example.moivememoir.ui.fragments.ReportFragment;
+import com.example.moivememoir.ui.fragments.MapViewFragment;
+import com.example.moivememoir.ui.fragments.WatchlistFragment;
 import com.example.moivememoir.viewModel.WatchListViewModel;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
@@ -55,7 +61,11 @@ public class MainActivity extends AppCompatActivity implements
 
 
         Intent mIntent = getIntent();
-        user = mIntent.getParcelableExtra("userObject");
+        String userJson = mIntent.getExtras().getString("userObject");
+        Gson g = new Gson();
+        user= g.fromJson(userJson, Person.class);
+
+
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nv);
@@ -78,13 +88,16 @@ public class MainActivity extends AppCompatActivity implements
                 replaceFragment(new HomeFragment());
                 break;
             case R.id.movieSearch:
-                replaceFragment(new MovieSearch());
+                replaceFragment(new MovieSearchFragment());
                 break;
             case R.id.watchlist:
                 replaceFragment(new WatchlistFragment());
                 break;
             case R.id.report:
                 replaceFragment(new ReportFragment());
+                break;
+            case R.id.maps:
+                replaceFragment(new MapViewFragment());
                 break;
 
         }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,19 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Movie;
 import com.example.moivememoir.entities.MovieToWatch;
-import com.example.moivememoir.ui.MovieViewFragment;
+import com.example.moivememoir.ui.fragments.MovieViewFragment;
 import com.example.moivememoir.viewModel.WatchListViewModel;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

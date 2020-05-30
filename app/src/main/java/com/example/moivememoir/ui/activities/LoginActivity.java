@@ -1,4 +1,4 @@
-package com.example.moivememoir.ui;
+package com.example.moivememoir.ui.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -131,13 +131,13 @@ public class LoginActivity  extends AppCompatActivity{
             }
             else if(!result.equals("failed")) {
                 Gson g = new Gson();
-                user= g.fromJson(result, Person.class);
+//                user= g.fromJson(result, Person.class);
                 pDialog.dismiss();
                 toast.setText("Login successful");
                 toast.show();
                 Intent intent = new Intent(LoginActivity.this,
                         MainActivity.class);
-                intent.putExtra("userObject", user);
+                intent.putExtra("userObject", result);
                 startActivity(intent);
             }
 

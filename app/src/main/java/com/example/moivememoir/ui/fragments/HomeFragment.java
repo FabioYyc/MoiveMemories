@@ -1,4 +1,4 @@
-package com.example.moivememoir.ui;
+package com.example.moivememoir.ui.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Person;
 import com.example.moivememoir.helpers.RestHelper;
+import com.example.moivememoir.ui.activities.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

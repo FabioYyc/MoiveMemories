@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MovieViewFragment">
+    tools:context=".ui.fragments.MovieViewFragment">
 
     <Button
         android:id="@+id/addWatchList"
