@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Movie;
+import com.example.moivememoir.helpers.FragmentHelper;
 import com.example.moivememoir.ui.fragments.MovieViewFragment;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -60,16 +61,9 @@ public class SearchMovieAdapter extends RecyclerView.Adapter
             bundle.putString("movieJson", gson.toJson(movieObj));
             MovieViewFragment fragment = new MovieViewFragment();
             fragment.setArguments(bundle);
-            replaceFragment(fragment, v);
+            FragmentHelper.replaceFragment(fragment, v);
         }
 
-    }
-    private void replaceFragment(Fragment nextFragment, View v) {
-        AppCompatActivity activity = (AppCompatActivity) v.getContext();
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, nextFragment);
-        fragmentTransaction.commit();
     }
 
     @Override

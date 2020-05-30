@@ -7,7 +7,10 @@ import android.os.Bundle;
 import com.example.moivememoir.database.WatchListDB;
 import com.example.moivememoir.entities.Movie;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.MovieToWatch;
 import com.example.moivememoir.entities.Person;
+import com.example.moivememoir.helpers.FragmentHelper;
 import com.example.moivememoir.viewModel.WatchListViewModel;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -53,6 +57,7 @@ public class MovieViewFragment extends Fragment {
     private RatingBar ratingBar;
     private ImageView imageView;
     private Button addWatchlist;
+    private Button addMemoir;
     private String genreString;
     private WatchListViewModel viewModel;
 
@@ -77,6 +82,7 @@ public class MovieViewFragment extends Fragment {
         tvMovieCountry = view.findViewById(R.id.movieCountry);
         tvMovieDirector = view.findViewById(R.id.movieDirector);
         addWatchlist = view.findViewById(R.id.addWatchList);
+        addMemoir = view.findViewById(R.id.addMemoir);
 
         viewModel = new
                 ViewModelProvider(getActivity()).get(WatchListViewModel.class);
@@ -111,7 +117,8 @@ public class MovieViewFragment extends Fragment {
                 Picasso.get().load(url).into(imageView);
             }
 
-            initAddWatchlistListener();
+//            initAddWatchlistListener();
+            initAddMemoirListener();
             int id = movie.getId();
             MovieToWatch movieToWatch = viewModel.findByID(id);
             CheckIfExistTask checkIfExistTask = new CheckIfExistTask();
@@ -144,6 +151,25 @@ public class MovieViewFragment extends Fragment {
 
 
     }
+
+    private void initAddMemoirListener() {
+
+        addMemoir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Gson gson = new Gson();
+                Bundle bundle = new Bundle();
+                bundle.putString("movieJson", gson.toJson(movie));
+                Fragment nextFragment = new AddToMemoir();
+                nextFragment.setArguments(bundle);
+                FragmentHelper.replaceFragment(nextFragment, v);
+            }
+        });
+
+
+    }
+
+
 
     private class GetMovieDetails extends AsyncTask<String, Void, String> {
 
@@ -210,6 +236,7 @@ public class MovieViewFragment extends Fragment {
                         String url = returnJson.getString("backdrop_path");
                         String posterBasePath = "https://image.tmdb.org/t/p/w500";
                         url = posterBasePath+url;
+                        movie.setImageLink(url);
                         Picasso.get().load(url).into(imageView);
 
                     }
@@ -217,6 +244,11 @@ public class MovieViewFragment extends Fragment {
                         String overview = returnJson.getString("overview");
                         movie.setDetail(overview);
                         tvMovieDetails.setText(overview);
+                    }
+                    if(movie.getRating() <1){
+                        float rating = returnJson.getInt("vote_average");
+                        movie.setRating(rating);
+                        ratingBar.setRating(movie.getRating()/2f);
                     }
 
 

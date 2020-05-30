@@ -1,5 +1,9 @@
 package com.example.moivememoir.helpers;
 
+import com.example.moivememoir.entities.Cinema;
+import com.example.moivememoir.entities.Memoir;
+import com.google.gson.Gson;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -8,6 +12,7 @@ import okhttp3.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -112,6 +117,58 @@ public class RestHelper {
 
     }
 
+    public String addMemoir(Memoir memoir, Boolean newCinema) {
+        String result = "failed";
+        String methodPth = "memoir.memoir";
+
+        Request.Builder credentialBuilder = new Request.Builder();
+        credentialBuilder.url(BASE_URL + methodPth);
+
+        Gson gson = new Gson();
+        int memoirId = createMemoirId();
+        memoir.setMemoirId(memoirId);
+
+        String memoirJson = gson.toJson(memoir);
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        if(!newCinema){
+
+            RequestBody body = RequestBody.create( memoirJson, JSON);
+            Request request = credentialBuilder.post(body).build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                if(response.code()==204) result =  "success";
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+        else{
+            //todo:create a new cinema first, then post the json.
+            Cinema cinema = memoir.getCinemaId();
+            try {
+                if(createNewCinema(cinema)){
+
+                    RequestBody body = RequestBody.create( memoirJson, JSON);
+                    Request request = credentialBuilder.post(body).build();
+                    try {
+                        Response response = client.newCall(request).execute();
+                        if(response.code()==204) result =  "success";
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return result;
+    }
+
     public String register(String[] params){
         //String[] details = new String[]{email, password, DOB, address, state, gender, firstName, surname, postcode};
         String email = params[0];
@@ -204,6 +261,42 @@ public class RestHelper {
             e.printStackTrace();
         }
         return result;
+
+    }
+
+    public Integer createMemoirId(){
+        String path = "memoir.memoir/count";
+        int result = 0;
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + path);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            result=Integer.parseInt(response.body().string());
+            return result+1;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+
+    public Boolean createNewCinema(Cinema cinema) throws IOException {
+        String path = "memoir.cinema";
+        Gson gson = new Gson();
+
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + path);
+        String cinemaJson = gson.toJson(cinema);
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        RequestBody body = RequestBody.create( cinemaJson, JSON);
+        Request request = builder.post(body).build();
+        Response response = client.newCall(request).execute();
+        if(response.code()==204) return true;
+
+        return false;
 
     }
 

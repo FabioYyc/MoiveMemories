@@ -112,8 +112,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         GetCinemaAddress getCinemaAddress = new GetCinemaAddress();
         getCinemaAddress.execute();
 
-
-
     }
 
     private class GetCinemaAddress extends AsyncTask<Integer, Void, String> {
