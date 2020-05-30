@@ -23,7 +23,21 @@
         android:id="@+id/watchlistView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="72dp"
         app:layout_constraintStart_toStartOf="@+id/watchlistTitle"
         app:layout_constraintTop_toBottomOf="@+id/watchlistTitle" />
+
+    <Button
+        android:id="@+id/watchlistDeleteAll"
+        android:layout_width="104dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/button_delete_all"
+        android:paddingLeft="6sp"
+        android:paddingRight="6sp"
+        android:text="Delete All"
+        android:textColor="@android:color/holo_red_dark"
+        app:layout_constraintStart_toEndOf="@+id/watchlistTitle"
+        app:layout_constraintTop_toTopOf="@+id/watchlistTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>
