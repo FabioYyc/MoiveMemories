@@ -19,8 +19,9 @@ public class RestHelper {
         client = new OkHttpClient();
     }
 
-    private static final String BASE_URL =
-            "http://192.168.1.102:16377/MovieMemoir/webresources/";
+    private static final String BASE_URL ="http://118.138.16.25:16377/MovieMemoir/webresources/";
+           //Home Ip "http://192.168.1.102:16377/MovieMemoir/webresources/";
+    //monash ip http://118.138.16.25:16377/MovieMemoir/webresources/
 
 
     public String login(String username, String password){
@@ -60,7 +61,7 @@ public class RestHelper {
             e.printStackTrace();
         }
 
-        if(code != 200) return results;
+        if(code == 200) return results;
         return "failed";
 
     }
@@ -205,6 +206,34 @@ public class RestHelper {
         return result;
 
     }
+
+    public String getWatchesPerPostcode(int personId, String startDate, String endDate){
+        String result = "failed";
+//        if(personId == 111) return result;
+
+        String methodPath = "memoir.memoir/findTotalWatchedPerPostcode/" + personId +"/"
+                + startDate +"/" +endDate;
+
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            //if get data failed
+//            if(response.code() != 200) return result;
+            result=response.body().string();
+
+            if(response.code() !=200) return "failed";
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+
+
+
     public Boolean createPerson(JSONObject personObj){
         String path = "memoir.person";
         Request.Builder builder = new Request.Builder();

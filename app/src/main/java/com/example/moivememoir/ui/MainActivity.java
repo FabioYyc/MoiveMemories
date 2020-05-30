@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.watchlist:
                 replaceFragment(new WatchlistFragment());
                 break;
+            case R.id.report:
+                replaceFragment(new ReportFragment());
+                break;
 
         }
         //this code closes the drawer after you selected an item from the menu,
