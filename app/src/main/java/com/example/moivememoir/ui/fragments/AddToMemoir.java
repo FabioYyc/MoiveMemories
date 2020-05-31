@@ -56,6 +56,8 @@ public class AddToMemoir extends Fragment {
     TextView watchedDatePicker;
     TextView watchedTimePicker;
     TextView etComment;
+    TextView addMemoirName;
+    TextView addMemoirYear;
     EditText etCinemaName;
     EditText etCinemaPostcode;
     RatingBar memoirRatingBar;
@@ -90,11 +92,19 @@ public class AddToMemoir extends Fragment {
         etCinemaName = view.findViewById(R.id.etCinemaName);
         etCinemaPostcode = view.findViewById(R.id.etCinemaPostcode);
         addMemoirPoster = view.findViewById(R.id.addMemoirPoster);
+        addMemoirName = view.findViewById(R.id.addMemoirName);
+        addMemoirYear = view.findViewById(R.id.addMemoirYear);
+        //So user cannot edit without selecting to add new cinema
+        etCinemaName.setFocusable(false);
+        etCinemaPostcode.setFocusable(false);
 
         createNewCinema.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    //if create new cinema, set the fields editable
                     newCinema = true;
+                    etCinemaName.setFocusable(true);
+                    etCinemaPostcode.setFocusable(true);
                 }
             }
         });
@@ -105,6 +115,8 @@ public class AddToMemoir extends Fragment {
             Gson gson = new Gson();
             movieJson = bundle.getString("movieJson");
             movie = gson.fromJson(movieJson, Movie.class);
+            addMemoirName.setText(movie.getName());
+            addMemoirYear.setText(movie.getReleaseDate().toString());
             Picasso.get().load(movie.getImageLink()).into(addMemoirPoster);
 
         }
@@ -185,9 +197,12 @@ public class AddToMemoir extends Fragment {
                 selectedCinema = cinemas.get(cinemaSpinner.getSelectedItemPosition());
                 newCinemaName = etCinemaName.getText().toString();
                 newCinemaPostcode = etCinemaPostcode.getText().toString();
-                PostToMemoir postToMemoir = new PostToMemoir();
-                postToMemoir.execute();
-
+                if(validateInputs()) {
+                    PostToMemoir postToMemoir = new PostToMemoir();
+                    postToMemoir.execute();
+                    GetCinemas getCinemas = new GetCinemas();
+                    getCinemas.execute();
+                }
 
             }
         });
@@ -247,6 +262,35 @@ public class AddToMemoir extends Fragment {
         } else {
             return "0" + String.valueOf(input);
         }
+    }
+
+    private boolean validateInputs() {
+
+        //validate email
+        if(newCinema) {
+            if ("".equals(etCinemaName.getText().toString())) {
+                etCinemaName.setError("Cinema name");
+                etCinemaName.requestFocus();
+                return false;
+            }
+
+            String postcodePattern = "[0-9]";
+            if (!etCinemaPostcode.getText().toString().matches(postcodePattern)) {
+                etCinemaPostcode.setError("Cinema postcode cannot be empty");
+                etCinemaPostcode.requestFocus();
+                return false;
+            }
+
+            //validate password
+
+        }
+        if(comment.isEmpty()){
+            etComment.setError("Comment cannot be empty");
+            etComment.requestFocus();
+
+        }
+
+        return true;
     }
 
     private class PostToMemoir extends AsyncTask<String, Void, String> {

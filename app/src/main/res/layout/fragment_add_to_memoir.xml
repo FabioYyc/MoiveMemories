@@ -1,14 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragments.AddToMemoir">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/addMemoirYear"
+        android:layout_width="112dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/addMemoirName"
+        app:layout_constraintTop_toBottomOf="@+id/addMemoirName" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="120dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="32dp"
+        android:text="Review"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/tvOr"
+        app:layout_constraintTop_toBottomOf="@+id/etCinemaName" />
+
+    <EditText
+        android:id="@+id/etCinemaPostcode"
+        android:layout_width="122dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:background="@drawable/text_border_bottom"
+        android:ems="10"
+        android:hint="Postcode"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/etCinemaName"
+        app:layout_constraintTop_toTopOf="@+id/etCinemaName" />
+
+    <TextView
+        android:id="@+id/tvSelectCinema2"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="24dp"
+        android:text="Select Date and Time"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addMemoirPoster" />
+
+    <ImageView
+        android:id="@+id/addMemoirPoster"
+        android:layout_width="142dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.163"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/watchDatePicker"
+        android:layout_width="153dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="16dp"
+        android:text="Date of watch"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/watchTimePicker"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSelectCinema2" />
+
+    <TextView
+        android:id="@+id/tvSelectCinema"
+        android:layout_width="120dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="20dp"
+        android:text="Select Cinema:"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/watchDatePicker"
+        app:layout_constraintTop_toBottomOf="@+id/watchDatePicker" />
+
+    <Spinner
+        android:id="@+id/cinemaSpinner"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/tvSelectCinema"
+        app:layout_constraintTop_toBottomOf="@+id/tvSelectCinema" />
+
+    <TextView
+        android:id="@+id/tvOr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Or "
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/cinemaSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/cinemaSpinner" />
+
+    <EditText
+        android:id="@+id/etCinemaName"
+        android:layout_width="122dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/text_border_bottom"
+        android:ems="10"
+        android:hint="Cinema Name"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/tvOr"
+        app:layout_constraintTop_toBottomOf="@+id/tvOr" />
+
+    <EditText
+        android:id="@+id/etComment"
+        android:layout_width="289dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/editTextBackground"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Comment: "
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.386"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/memoirRatingBar" />
+
+    <RatingBar
+        android:id="@+id/memoirRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:numStars="5"
+        app:layout_constraintStart_toStartOf="@+id/tvComment"
+        app:layout_constraintTop_toBottomOf="@+id/tvComment" />
+
+    <Button
+        android:id="@+id/submitMemoir"
+        android:layout_width="144dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_outline_shape"
+        android:paddingTop="0dp"
+        android:text="Add to Memoir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.43"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etComment" />
+
+    <TextView
+        android:id="@+id/watchTimePicker"
+        android:layout_width="126dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
+        android:text="Time"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/watchDatePicker" />
+
+    <Switch
+        android:id="@+id/createNewCinema"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:text="Add new cinema"
+        app:layout_constraintStart_toEndOf="@+id/tvOr"
+        app:layout_constraintTop_toTopOf="@+id/tvOr" />
+
+    <TextView
+        android:id="@+id/addMemoirName"
+        android:layout_width="84dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="12dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/addMemoirPoster"
+        app:layout_constraintTop_toTopOf="@+id/addMemoirPoster" />
+</androidx.constraintlayout.widget.ConstraintLayout>

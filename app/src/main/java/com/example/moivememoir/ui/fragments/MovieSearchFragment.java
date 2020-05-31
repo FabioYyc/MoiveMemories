@@ -176,4 +176,5 @@ public class MovieSearchFragment extends Fragment {
 
         }
     }
+
 }

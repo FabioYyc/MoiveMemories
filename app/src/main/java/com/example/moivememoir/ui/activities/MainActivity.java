@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         navigationView.setNavigationItemSelectedListener(this);
-        replaceFragment(new HomeFragment());
+        replaceFragmentFromMain(new HomeFragment());
     }
 
     @Override
@@ -85,19 +85,19 @@ public class MainActivity extends AppCompatActivity implements
         int id = item.getItemId();
         switch (id) {
             case R.id.home:
-                replaceFragment(new HomeFragment());
+                replaceFragmentFromMain(new HomeFragment());
                 break;
             case R.id.movieSearch:
-                replaceFragment(new MovieSearchFragment());
+                replaceFragmentFromMain(new MovieSearchFragment());
                 break;
             case R.id.watchlist:
-                replaceFragment(new WatchlistFragment());
+                replaceFragmentFromMain(new WatchlistFragment());
                 break;
             case R.id.report:
-                replaceFragment(new ReportFragment());
+                replaceFragmentFromMain(new ReportFragment());
                 break;
             case R.id.maps:
-                replaceFragment(new MapViewFragment());
+                replaceFragmentFromMain(new MapViewFragment());
                 break;
 
         }
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 
-    private void replaceFragment(Fragment nextFragment) {
+    private void replaceFragmentFromMain(Fragment nextFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, nextFragment);

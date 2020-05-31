@@ -24,7 +24,7 @@ public class RestHelper {
         client = new OkHttpClient();
     }
 
-    private static final String BASE_URL ="http://118.138.16.25:16377/MovieMemoir/webresources/";
+    private static final String BASE_URL ="http://192.168.1.102:16377/MovieMemoir/webresources/";
            //Home Ip "http://192.168.1.102:16377/MovieMemoir/webresources/";
     //monash ip http://118.138.16.25:16377/MovieMemoir/webresources/
 

@@ -1,6 +1,10 @@
 package com.example.moivememoir.ui.fragments;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -19,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +32,8 @@ import com.example.moivememoir.R;
 import com.example.moivememoir.entities.MovieToWatch;
 import com.example.moivememoir.entities.Person;
 import com.example.moivememoir.helpers.FragmentHelper;
+import com.example.moivememoir.helpers.TwitterHelper;
+import com.example.moivememoir.ui.activities.RegisterActivity;
 import com.example.moivememoir.viewModel.WatchListViewModel;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -44,6 +51,14 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 public class MovieViewFragment extends Fragment {
     private Movie movie;
@@ -54,12 +69,16 @@ public class MovieViewFragment extends Fragment {
     private TextView tvMovieCast;
     private TextView tvMovieCountry;
     private TextView tvMovieDirector;
+    TextView tvCheckTwitter;
     private RatingBar ratingBar;
     private ImageView imageView;
     private Button addWatchlist;
     private Button addMemoir;
     private String genreString;
     private WatchListViewModel viewModel;
+    private List<twitter4j.Status> tweets;
+    TwitterHelper twitterHelper;
+    ProgressDialog pDialog;
 
 
     @Override
@@ -83,6 +102,7 @@ public class MovieViewFragment extends Fragment {
         tvMovieDirector = view.findViewById(R.id.movieDirector);
         addWatchlist = view.findViewById(R.id.addWatchList);
         addMemoir = view.findViewById(R.id.addMemoir);
+        tvCheckTwitter = view.findViewById(R.id.tvCheckTwitter);
 
         viewModel = new
                 ViewModelProvider(getActivity()).get(WatchListViewModel.class);
@@ -123,8 +143,10 @@ public class MovieViewFragment extends Fragment {
             MovieToWatch movieToWatch = viewModel.findByID(id);
             CheckIfExistTask checkIfExistTask = new CheckIfExistTask();
             checkIfExistTask.execute(movie.getId());
-
+            initTwitterListener();
         }
+
+
         return view;
 
     }
@@ -168,6 +190,27 @@ public class MovieViewFragment extends Fragment {
 
 
     }
+
+    private void initTwitterListener() {
+
+                tvCheckTwitter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(isNetworkAvailable()){
+                            SearchTwitterTask searchTwitterTask = new SearchTwitterTask();
+                            searchTwitterTask.execute(movie.getName()+" movie");
+                            displayLoader("Fetching Twitter data...");
+                        }
+                        else{
+                            Toast toast = Toast.makeText(getActivity(),"Network unavailable", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+
+                    }
+                });
+
+    }
+
 
 
 
@@ -274,6 +317,24 @@ public class MovieViewFragment extends Fragment {
         return retString;
     }
 
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
+    private void displayLoader(String message) {
+        pDialog = new ProgressDialog(getContext());
+        pDialog.setMessage(message);
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+    }
+
     private class CheckIfExistTask extends AsyncTask<Integer, Void, MovieToWatch> {
 
         @Override
@@ -288,6 +349,57 @@ public class MovieViewFragment extends Fragment {
         protected void onPostExecute(MovieToWatch exist) {
             if(exist != null) addWatchlist.setEnabled(false);
             else initAddWatchlistListener();
+
+        }
+    }
+
+    private class SearchTwitterTask extends AsyncTask<String, Void, ArrayList<String>> {
+
+        @Override
+        protected ArrayList<String>  doInBackground(String... params) {
+            ArrayList<String> tweetText = new ArrayList<String>();
+
+            ConfigurationBuilder cb = new ConfigurationBuilder();
+            cb.setDebugEnabled(true)
+                    .setOAuthConsumerKey(getString(R.string.twitter_api_key))
+                    .setOAuthConsumerSecret(getString(R.string.twitter_api_secret_key))
+                    .setOAuthAccessToken(getString(R.string.twitter_access_token))
+                    .setOAuthAccessTokenSecret(getString(R.string.twitter_access_token_secret));
+
+            TwitterFactory tf = new TwitterFactory(cb.build());
+            Twitter twitter = tf.getInstance();
+
+            String searchText = params[0];
+            Query query = new Query(searchText);
+            List<twitter4j.Status> tweets = new ArrayList();
+            QueryResult result;
+
+            try {
+                result = twitter.search(query);
+                tweets = result.getTweets();
+                for(int i =0; i < tweets.size() && i <10; i++){
+                    tweetText.add(tweets.get(i).getText());
+                }
+
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+            return tweetText;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> tweetText) {
+            String result;
+            twitterHelper = new TwitterHelper(getContext());
+            result = twitterHelper.calculateCategory(tweetText);
+
+            if(result != null){
+
+                tvCheckTwitter.setText("People are " + result + " about this movie");
+            }
+
+            pDialog.dismiss();
 
         }
     }

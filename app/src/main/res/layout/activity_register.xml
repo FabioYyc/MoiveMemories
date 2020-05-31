@@ -123,13 +123,11 @@
         android:id="@+id/registerSubmit"
         android:layout_width="131dp"
         android:layout_height="39dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginLeft="96dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginLeft="92dp"
+        android:layout_marginTop="92dp"
         android:background="@drawable/button_shape"
         android:text="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/signUpGender" />
 
