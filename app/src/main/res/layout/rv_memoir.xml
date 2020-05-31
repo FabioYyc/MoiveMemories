@@ -1,0 +1,94 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    tools:context=".ui.activities.MainActivity">
+
+    <TextView
+        android:id="@+id/memoirComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Comment"
+        android:textColor="@android:color/holo_blue_dark"
+        app:layout_constraintStart_toStartOf="@+id/memoirPosterView"
+        app:layout_constraintTop_toBottomOf="@+id/memoirPosterView" />
+
+    <TextView
+        android:id="@+id/tvMemoirComment"
+        android:layout_width="314dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_outline_shape"
+        android:isScrollContainer="true"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/memoirComment"
+        app:layout_constraintTop_toBottomOf="@+id/memoirComment" />
+
+    <ImageView
+        android:id="@+id/memoirPosterView"
+        android:layout_width="144dp"
+        android:layout_height="138dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMemoirMovieName"
+        android:layout_width="192dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        android:gravity="center"
+        android:isScrollContainer="true"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/memoirPosterView"
+        app:layout_constraintTop_toTopOf="@+id/memoirPosterView" />
+
+    <TextView
+        android:id="@+id/tvMemoirMovieReleaseYear"
+        android:layout_width="192dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tvMemoirMovieName"
+        app:layout_constraintTop_toBottomOf="@+id/tvMemoirMovieName" />
+
+    <TextView
+        android:id="@+id/memoirWatchedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Watched at:"
+        android:textColor="@android:color/holo_blue_dark"
+        app:layout_constraintStart_toStartOf="@+id/tvMemoirMovieReleaseYear"
+        app:layout_constraintTop_toBottomOf="@+id/tvMemoirMovieReleaseYear" />
+
+    <TextView
+        android:id="@+id/tvMemoirWatchedDate"
+        android:layout_width="162dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:isScrollContainer="true"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/memoirWatchedAt"
+        app:layout_constraintTop_toBottomOf="@+id/memoirWatchedAt" />
+
+    <RatingBar
+        android:id="@+id/memoirRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMemoirComment" />
+</androidx.constraintlayout.widget.ConstraintLayout>

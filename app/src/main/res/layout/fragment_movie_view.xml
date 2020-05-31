@@ -54,7 +54,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/movieName"
+        android:id="@+id/tvMemoirMovieName"
         android:layout_width="163dp"
         android:layout_height="57dp"
         android:layout_marginStart="44dp"
@@ -63,7 +63,7 @@
         android:scrollbars="vertical"
         android:text="TextView"
         android:textColor="@color/pitch_black"
-        android:textSize="28dp"
+        android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/moviePoster"
         app:layout_constraintTop_toTopOf="@+id/moviePoster" />
 
@@ -94,8 +94,8 @@
         android:layout_marginTop="8dp"
         android:text="TextView"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/movieName"
-        app:layout_constraintTop_toBottomOf="@+id/movieName" />
+        app:layout_constraintStart_toStartOf="@+id/tvMemoirMovieName"
+        app:layout_constraintTop_toBottomOf="@+id/tvMemoirMovieName" />
 
     <TextView
         android:id="@+id/movieGenres"
@@ -103,7 +103,8 @@
         android:layout_height="30dp"
         android:layout_marginTop="16dp"
         android:isScrollContainer="true"
-        android:scrollbars="horizontal"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical"
         android:text="TextView"
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="@+id/movieRating"

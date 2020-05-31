@@ -51,6 +51,18 @@ public class Memoir {
         return memoirMovieReleaseDate;
     }
 
+    public String getMemoirMovieName() {
+        return memoirMovieName;
+    }
+
+    public String getMemoirWatchDatetime() {
+        return memoirWatchDatetime;
+    }
+
+    public void setMemoirWatchDatetime(String memoirWatchDatetime) {
+        this.memoirWatchDatetime = memoirWatchDatetime;
+    }
+
     public void setMemoirMovieName(String memoirMovieName) {
         this.memoirMovieName = memoirMovieName;
     }
@@ -63,13 +75,8 @@ public class Memoir {
         this.memoirRating = memoirRating;
     }
 
-    public String getMemoirWatchDateTime() {
-        return memoirWatchDatetime;
-    }
 
-    public void setMemoirWatchDateTime(String memoirWatchDateTime) {
-        this.memoirWatchDatetime = memoirWatchDateTime;
-    }
+
 
     public Cinema getCinemaId() {
         return cinemaId;

@@ -9,10 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moivememoir.R;
@@ -41,9 +37,9 @@ public class SearchMovieAdapter extends RecyclerView.Adapter
         public ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
-            tvMovieName = itemView.findViewById(R.id.movieName);
-            tvReleaseYear= itemView.findViewById(R.id.releaseYear);
-            posterView=itemView.findViewById(R.id.posterView);
+            tvMovieName = itemView.findViewById(R.id.tvMemoirMovieName);
+            tvReleaseYear= itemView.findViewById(R.id.tvMemoirMovieReleaseYear);
+            posterView=itemView.findViewById(R.id.memoirPosterView);
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
 

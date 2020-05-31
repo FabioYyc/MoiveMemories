@@ -6,7 +6,7 @@
     android:padding="3dip">
 
     <TextView
-        android:id="@+id/movieName"
+        android:id="@+id/tvMemoirMovieName"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Movie Name"
@@ -14,7 +14,7 @@
         android:textSize="18dp" />
 
     <TextView
-        android:id="@+id/releaseYear"
+        android:id="@+id/tvMemoirMovieReleaseYear"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

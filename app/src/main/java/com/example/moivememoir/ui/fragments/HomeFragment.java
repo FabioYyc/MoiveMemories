@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     ListView movieList;
 
     String[] colHEAD = new String[]{"NAME", "RELEASE YEAR", "RATING"};
-    int[] dataCell = new int[]{R.id.movieName, R.id.releaseYear, R.id.rating};
+    int[] dataCell = new int[]{R.id.tvMemoirMovieName, R.id.tvMemoirMovieReleaseYear, R.id.rating};
 
 
     @Override

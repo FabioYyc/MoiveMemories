@@ -14,6 +14,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="28dp"
         android:text="TextView"
+        android:textColor="@android:color/holo_blue_dark"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,10 +23,10 @@
         android:id="@+id/watchlistDate"
         android:layout_width="151dp"
         android:layout_height="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="3dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/watchlistName"
-        app:layout_constraintTop_toBottomOf="@+id/watchlistName" />
+        app:layout_constraintTop_toBottomOf="@+id/addedTime" />
 
     <Button
         android:id="@+id/watchlistView"
@@ -50,4 +51,13 @@
         android:textColor="@color/white_opaque"
         app:layout_constraintEnd_toEndOf="@+id/watchlistView"
         app:layout_constraintTop_toBottomOf="@+id/watchlistView" />
+
+    <TextView
+        android:id="@+id/addedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Add time:"
+        app:layout_constraintStart_toStartOf="@+id/watchlistName"
+        app:layout_constraintTop_toBottomOf="@+id/watchlistName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

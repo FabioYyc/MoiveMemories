@@ -122,35 +122,29 @@
         android:id="@+id/etComment"
         android:layout_width="289dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
         android:background="?attr/editTextBackground"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Comment: "
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.386"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/memoirRatingBar" />
-
-    <RatingBar
-        android:id="@+id/memoirRatingBar"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="16dp"
-        android:numStars="5"
-        app:layout_constraintStart_toStartOf="@+id/tvComment"
-        app:layout_constraintTop_toBottomOf="@+id/tvComment" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/addMemoirRatingBar"
+        app:layout_constraintTop_toBottomOf="@+id/addMemoirRatingBar" />
 
     <Button
         android:id="@+id/submitMemoir"
         android:layout_width="144dp"
         android:layout_height="35dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/button_outline_shape"
         android:paddingTop="0dp"
         android:text="Add to Memoir"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.43"
+        app:layout_constraintHorizontal_bias="0.426"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etComment" />
 
@@ -186,4 +180,13 @@
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/addMemoirPoster"
         app:layout_constraintTop_toTopOf="@+id/addMemoirPoster" />
+
+    <RatingBar
+        android:id="@+id/addMemoirRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:numStars="5"
+        app:layout_constraintStart_toStartOf="@+id/etCinemaName"
+        app:layout_constraintTop_toBottomOf="@+id/tvComment" />
 </androidx.constraintlayout.widget.ConstraintLayout>

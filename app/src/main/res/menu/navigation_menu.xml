@@ -16,5 +16,8 @@
     <item
         android:id="@+id/maps"
         android:title="Maps" />
+    <item
+        android:id="@+id/memoirs"
+        android:title="Memoirs" />
 
 </menu>

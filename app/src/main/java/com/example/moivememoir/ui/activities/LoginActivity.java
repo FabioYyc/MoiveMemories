@@ -120,17 +120,8 @@ public class LoginActivity  extends AppCompatActivity{
         protected void onPostExecute(String result) {
 
             Toast toast = Toast.makeText(getApplicationContext(), "message", Toast.LENGTH_LONG);
-            if(result.equals("unit test")){
-                user = new Person(111, "test", "unittest");
-                user.setPersonName("test");
-                user.setPersonSurname("test surname");
-                Intent intent = new Intent(LoginActivity.this,
-                        MainActivity.class);
-                intent.putExtra("userObject", user);
-                startActivity(intent);
-            }
-            else if(!result.equals("failed")) {
-                Gson g = new Gson();
+
+             if(!result.equals("failed")) {
 //                user= g.fromJson(result, Person.class);
                 pDialog.dismiss();
                 toast.setText("Login successful");

@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.Person;
 import com.example.moivememoir.ui.fragments.HomeFragment;
+import com.example.moivememoir.ui.fragments.MemoirFragment;
 import com.example.moivememoir.ui.fragments.MovieSearchFragment;
 import com.example.moivememoir.ui.fragments.ReportFragment;
 import com.example.moivememoir.ui.fragments.MapViewFragment;
@@ -98,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case R.id.maps:
                 replaceFragmentFromMain(new MapViewFragment());
+                break;
+            case R.id.memoirs:
+                replaceFragmentFromMain(new MemoirFragment());
                 break;
 
         }

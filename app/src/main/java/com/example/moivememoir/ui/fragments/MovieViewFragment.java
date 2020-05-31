@@ -2,19 +2,14 @@ package com.example.moivememoir.ui.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.example.moivememoir.database.WatchListDB;
 import com.example.moivememoir.entities.Movie;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -23,17 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.moivememoir.R;
 import com.example.moivememoir.entities.MovieToWatch;
-import com.example.moivememoir.entities.Person;
 import com.example.moivememoir.helpers.FragmentHelper;
 import com.example.moivememoir.helpers.TwitterHelper;
-import com.example.moivememoir.ui.activities.RegisterActivity;
 import com.example.moivememoir.viewModel.WatchListViewModel;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -57,8 +49,6 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
-
-import static androidx.core.content.ContextCompat.getSystemService;
 
 public class MovieViewFragment extends Fragment {
     private Movie movie;
@@ -91,7 +81,7 @@ public class MovieViewFragment extends Fragment {
         //todo: get data from the recycler view
 //        Intent mIntent = getIntent();
 //        movie = mIntent.getExtras().getParcelable("movieObject");
-        tvMovieName = view.findViewById(R.id.movieName);
+        tvMovieName = view.findViewById(R.id.tvMemoirMovieName);
         imageView = view.findViewById(R.id.moviePoster);
         tvMovieDetails = view.findViewById(R.id.movieDetails);
         tvMovieYear = view.findViewById(R.id.movieYear);
@@ -371,6 +361,8 @@ public class MovieViewFragment extends Fragment {
 
             String searchText = params[0];
             Query query = new Query(searchText);
+            query.setCount(10);
+            query.setLang("en");
             List<twitter4j.Status> tweets = new ArrayList();
             QueryResult result;
 
@@ -397,9 +389,9 @@ public class MovieViewFragment extends Fragment {
             if(result != null){
 
                 tvCheckTwitter.setText("People are " + result + " about this movie");
-            }
+                pDialog.dismiss();
 
-            pDialog.dismiss();
+            }
 
         }
     }

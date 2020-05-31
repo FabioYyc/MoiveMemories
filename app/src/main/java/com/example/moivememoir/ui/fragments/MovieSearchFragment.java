@@ -101,59 +101,7 @@ public class MovieSearchFragment extends Fragment {
 
             }
 
-
-            result = restHelper.movieSearch(searchName, apiKey);
-            if (result.equals("failed")) return retMovieList;
-
-
-            try {
-                JSONObject jsonObj = new JSONObject(result);
-
-                JSONArray array = jsonObj.getJSONArray("results");
-                for (int i = 0; i < array.length(); i++) {
-//                    {
-//                        "poster_path": "/IfB9hy4JH1eH6HEfIgIGORXi5h.jpg",
-//                            "adult": false,
-//                            "overview": "Jack Reacher must uncover the truth behind a major government conspiracy in order to clear his name. On the run as a fugitive from the law, Reacher uncovers a potential secret from his past that could change his life forever.",
-//                            "release_date": "2016-10-19",
-//                            "genre_ids": [
-//                        53,
-//                                28,
-//                                80,
-//                                18,
-//                                9648
-//  ],
-//                        "id": 343611,
-//                            "original_title": "Jack Reacher: Never Go Back",
-//                            "original_language": "en",
-//                            "title": "Jack Reacher: Never Go Back",
-//                            "backdrop_path": "/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg",
-//                            "popularity": 26.818468,
-//                            "vote_count": 201,
-//                            "video": false,
-//                            "vote_average": 4.19
-//                    }
-                    JSONObject obj = array.getJSONObject(i);
-                    Movie movie = new Movie();
-                    String posterBasePath = "https://image.tmdb.org/t/p/w500/";
-                    String posterPath = posterBasePath + obj.getString("poster_path");
-                    movie.setImageLink(posterPath);
-                    movie.setDetail(obj.getString("overview"));
-                    Date releaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(obj.getString("release_date"));
-                    movie.setReleaseDate(releaseDate);
-                    movie.setName(obj.getString("title"));
-                    movie.setId(obj.getInt("id"));
-                    float myFloatValue = BigDecimal.valueOf(obj.getDouble("vote_average")).floatValue();
-                    movie.setRating(myFloatValue/2);
-
-                    retMovieList.add(movie);
-
-                }
-            } catch (JSONException | ParseException e) {
-                e.printStackTrace();
-
-            }
-
+            retMovieList = restHelper.movieSearch(searchName, apiKey);
             return retMovieList;
 
 
@@ -166,7 +114,6 @@ public class MovieSearchFragment extends Fragment {
                 toast.setText("Cannot find movie");
                 toast.show();
             } else movieList = myMovieList;
-            adapter = new SearchMovieAdapter(movieList);
             recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                     LinearLayoutManager.VERTICAL));
             recyclerView.setAdapter(new SearchMovieAdapter(movieList));

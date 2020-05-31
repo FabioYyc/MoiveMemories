@@ -8,7 +8,7 @@
     tools:context = ".ui.activities.MainActivity">
 
     <ImageView
-        android:id="@+id/posterView"
+        android:id="@+id/memoirPosterView"
         android:layout_width="144dp"
         android:layout_height="138dp"
         android:layout_marginStart="28dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/movieName"
+        android:id="@+id/tvMemoirMovieName"
         android:layout_width="184dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
@@ -26,20 +26,20 @@
         android:layout_marginBottom="48dp"
         android:gravity="center"
         android:textSize="26sp"
-        app:layout_constraintBottom_toTopOf="@+id/releaseYear"
+        app:layout_constraintBottom_toTopOf="@+id/tvMemoirMovieReleaseYear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/posterView"
+        app:layout_constraintStart_toEndOf="@+id/memoirPosterView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.952" />
 
     <TextView
-        android:id="@+id/releaseYear"
+        android:id="@+id/tvMemoirMovieReleaseYear"
         android:layout_width="185dp"
         android:layout_height="37dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:textSize="26sp"
-        app:layout_constraintBottom_toBottomOf="@+id/posterView"
-        app:layout_constraintStart_toStartOf="@+id/movieName" />
+        app:layout_constraintBottom_toBottomOf="@+id/memoirPosterView"
+        app:layout_constraintStart_toStartOf="@+id/tvMemoirMovieName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

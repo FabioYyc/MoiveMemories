@@ -39,7 +39,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -86,7 +85,7 @@ public class AddToMemoir extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_to_memoir, container, false);
         cinemaSpinner = view.findViewById(R.id.cinemaSpinner);
         etComment = view.findViewById(R.id.etComment);
-        memoirRatingBar = view.findViewById(R.id.memoirRatingBar);
+        memoirRatingBar = view.findViewById(R.id.addMemoirRatingBar);
         submitMemoir = view.findViewById(R.id.submitMemoir);
         createNewCinema = view.findViewById(R.id.createNewCinema);
         etCinemaName = view.findViewById(R.id.etCinemaName);
@@ -116,7 +115,9 @@ public class AddToMemoir extends Fragment {
             movieJson = bundle.getString("movieJson");
             movie = gson.fromJson(movieJson, Movie.class);
             addMemoirName.setText(movie.getName());
-            addMemoirYear.setText(movie.getReleaseDate().toString());
+            DateFormat dateFormat = new SimpleDateFormat("yyyy");
+            String dateStr = dateFormat.format(movie.getReleaseDate());
+            addMemoirYear.setText(dateStr);
             Picasso.get().load(movie.getImageLink()).into(addMemoirPoster);
 
         }
@@ -303,7 +304,7 @@ public class AddToMemoir extends Fragment {
             String dateTimeStr = watchedDate +timeStr;
             Memoir memoir = new Memoir();
             memoir.setMemoirRating(rating);
-            memoir.setMemoirWatchDateTime(dateTimeStr);
+            memoir.setMemoirWatchDatetime(dateTimeStr);
             memoir.setMemoirComment(comment);
             memoir.setPersonId(user);
             memoir.setMemoirMovieName(movie.getName());
