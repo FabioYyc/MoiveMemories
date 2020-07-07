@@ -87,3 +87,4 @@ lint/tmp/
 
 # api keys
 *secrets.xml
+*api*
